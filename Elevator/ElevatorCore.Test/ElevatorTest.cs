@@ -14,7 +14,6 @@ namespace ElevatorCore.Test
             testObj = new Elevator();
         }
 
-        // request floor, non-empty stack + different direction, queue floor
         // request floor, same floor, don't queue
 
         [Test]
@@ -48,6 +47,16 @@ namespace ElevatorCore.Test
 
             testObj.RequestFloor(floor);
             testObj.RequestFloor(targetFloor);
+
+            Assert.AreEqual(floor, testObj.Target);
+        }
+        
+        [TestCase(1)]
+        [TestCase(-1)]
+        public void RequestFloor_NotEmptyDifferentDirection_QueueFloor(int floor)
+        {
+            testObj.RequestFloor(floor);
+            testObj.RequestFloor(-floor);
 
             Assert.AreEqual(floor, testObj.Target);
         }
