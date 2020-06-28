@@ -3,9 +3,9 @@
     internal interface IElevator
     {
         Direction Direction { get; }
-        int Target { get; }
-        int Current { get; }
+        Floor Target { get; }
+        Floor Current { get; }
 
-        void RequestFloor(int floor);
+        void RequestFloor(Floor floor);
     }
 }

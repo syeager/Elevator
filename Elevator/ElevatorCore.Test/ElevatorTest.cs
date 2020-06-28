@@ -14,12 +14,10 @@ namespace ElevatorCore.Test
             testObj = new Elevator();
         }
 
-        // request floor, same floor, don't queue
-
         [Test]
         public void RequestFloor_Empty_MoveToFloor()
         {
-            const int targetFloor = 1;
+            var targetFloor = new Floor(1);
 
             testObj.RequestFloor(targetFloor);
 
@@ -27,38 +25,51 @@ namespace ElevatorCore.Test
             Assert.AreEqual(targetFloor, testObj.Target);
         }
 
+        [Test]
+        public void RequestFloor_SameFloor_DontAccept()
+        {
+            testObj.RequestFloor(new Floor(0));
+
+            Assert.AreEqual(Direction.None, testObj.Direction);
+        }
+
         [TestCase(1)]
         [TestCase(-1)]
         public void RequestFloor_NotEmptySameDirectionBeforeTarget_ChangeTarget(int floor)
         {
-            var initialFloor = floor * 2;
+            var initial = new Floor(floor * 2);
+            var target = new Floor(floor);
             
-            testObj.RequestFloor(initialFloor);
-            testObj.RequestFloor(floor);
+            testObj.RequestFloor(initial);
+            testObj.RequestFloor(target);
 
-            Assert.AreEqual(floor, testObj.Target);
+            Assert.AreEqual(target, testObj.Target);
         }
 
         [TestCase(1)]
         [TestCase(-1)]
         public void RequestFloor_NotEmptySameDirectionAfterTarget_QueueFloor(int floor)
         {
-            var targetFloor = floor * 2;
+            var initial = new Floor(floor);
+            var target = new Floor(floor * 2);
 
-            testObj.RequestFloor(floor);
-            testObj.RequestFloor(targetFloor);
+            testObj.RequestFloor(initial);
+            testObj.RequestFloor(target);
 
-            Assert.AreEqual(floor, testObj.Target);
+            Assert.AreEqual(initial, testObj.Target);
         }
         
         [TestCase(1)]
         [TestCase(-1)]
         public void RequestFloor_NotEmptyDifferentDirection_QueueFloor(int floor)
         {
-            testObj.RequestFloor(floor);
-            testObj.RequestFloor(-floor);
+            var initial = new Floor(floor);
+            var target = new Floor(-floor);
 
-            Assert.AreEqual(floor, testObj.Target);
+            testObj.RequestFloor(initial);
+            testObj.RequestFloor(target);
+
+            Assert.AreEqual(initial, testObj.Target);
         }
     }
 }
