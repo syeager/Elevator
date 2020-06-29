@@ -26,7 +26,7 @@ namespace ElevatorCore.Api
 
         public bool Equals(Floor other)
         {
-            return isValid && other.isValid && value == other.value;
+            return isValid == other.isValid && value == other.value;
         }
 
         public override bool Equals(object obj)
@@ -39,9 +39,24 @@ namespace ElevatorCore.Api
             return HashCode.Combine(value, isValid);
         }
 
+        public override string ToString()
+        {
+            return isValid ? $"Floor: {value}" : "Floor: N/A";
+        }
+
         public static int operator -(Floor a, Floor b)
         {
             return a.value - b.value;
+        }
+
+        public static bool operator ==(Floor a, Floor b)
+        {
+            return a.isValid == b.isValid && a.value == b.value;
+        }
+
+        public static bool operator !=(Floor a, Floor b)
+        {
+            return !(a == b);
         }
     }
 }

@@ -28,9 +28,9 @@ namespace ElevatorCore.Test
         [Test]
         public void RequestFloor_SameFloor_DontAccept()
         {
-            testObj.RequestFloor(new Floor(0));
+            testObj.RequestFloor(testObj.Current);
 
-            Assert.AreEqual(Direction.None, testObj.Direction);
+            Assert.AreEqual(Floor.NotValid, testObj.Target);
         }
 
         [TestCase(1)]
